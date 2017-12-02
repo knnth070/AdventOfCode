@@ -16,9 +16,12 @@
         (Seq.max values) - (Seq.min values)
 
     let divChecksum values =
-        Seq.map (fun x -> Seq.map (fun y -> x, y) values) values
-        |> Seq.concat
-        |> Seq.choose (fun (x, y) -> if x > y && x % y = 0 then Some (x / y) else None)
+        seq {
+            for x in values do
+                for y in values do
+                    yield if x > y && x % y = 0 then Some (x / y) else None
+        }
+        |> Seq.choose id
         |> Seq.head
 
     let checksum f input =
