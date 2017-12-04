@@ -59,8 +59,10 @@
     <Content Include="packages.config" />
     <Content Include="Input\day1.txt" />
     <Content Include="Input\day2.txt" />
+    <Content Include="Input\day4.txt" />
     <Compile Include="Day1.fs" />
     <Compile Include="Day2.fs" />
+    <Compile Include="Day4.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
