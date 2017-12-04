@@ -10,12 +10,10 @@
         |> System.String
 
     let isValidPassphrase f (phrase:string) =
-        let invalidPhrases =
-            phrase.Split(' ')
-            |> Seq.map f
-            |> Seq.groupBy id
-            |> Seq.filter (fun (_, l) -> Seq.length l <> 1)
-        Seq.length invalidPhrases = 0
+        phrase.Split(' ')
+        |> Seq.groupBy f
+        |> Seq.filter (fun (_, l) -> Seq.length l <> 1)
+        |> Seq.isEmpty
 
     let validPassphrases f input =
         input
