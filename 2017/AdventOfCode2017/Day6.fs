@@ -13,7 +13,7 @@
 
         let rec impl b visited cycle firstOccurence =
             let max = Array.max b
-            let index = Array.findIndex (fun i -> i = max) b
+            let index = Array.findIndex ((=) max) b
             b.[index] <- 0
             spread b (index + 1) max
             
