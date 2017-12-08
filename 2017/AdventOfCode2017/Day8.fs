@@ -10,12 +10,6 @@
     type Instruction =
         { register: string; increment: int; condition: Condition }
 
-    let setRegister registers name value =
-        registers |> Map.add name value
-
-    let getRegister registers name =
-        registers |> Map.tryFind name |> Option.defaultValue 0
-
     let parseLine (line:string) =
         let tokens = line.Split(' ')
         let reg = tokens.[0]
@@ -28,35 +22,40 @@
 
         { register = reg; increment = increment; condition = condition }
 
-    let conditionIsTrue registers condition =
-        let registerValue = getRegister registers condition.operand
-        match condition.comparison with
-        | ">" -> registerValue > condition.value
-        | "<" -> registerValue < condition.value
-        | ">=" -> registerValue >= condition.value
-        | "<=" -> registerValue <= condition.value
-        | "==" -> registerValue = condition.value
-        | "!=" -> registerValue <> condition.value
-        | _ -> false
-
     let highestValue =
         Map.toList >> List.map snd >> List.max
 
     let processLine registers instruction highest =
-        if conditionIsTrue registers instruction.condition
+        let setRegister name value =
+            registers |> Map.add name value
+
+        let getRegister name =
+            registers |> Map.tryFind name |> Option.defaultValue 0
+
+        let conditionIsTrue condition =
+            let registerValue = getRegister condition.operand
+            match condition.comparison with
+            | ">" -> registerValue > condition.value
+            | "<" -> registerValue < condition.value
+            | ">=" -> registerValue >= condition.value
+            | "<=" -> registerValue <= condition.value
+            | "==" -> registerValue = condition.value
+            | "!=" -> registerValue <> condition.value
+            | _ -> false
+
+        if conditionIsTrue instruction.condition
         then
-            let newValue = instruction.increment + getRegister registers instruction.register
-            let newRegisters = setRegister registers instruction.register newValue
-            let currentHighest = highestValue newRegisters
-            newRegisters, currentHighest, max highest currentHighest
+            let newValue = instruction.increment + getRegister instruction.register
+            let newRegisters = setRegister instruction.register newValue
+            newRegisters, max highest (highestValue newRegisters)
         else
-            registers, highestValue registers, highest
+            registers, highest
 
     let solve() =
-        let _, highest, totalHighest =
+        let registers, totalHighest =
             File.ReadAllLines("..\..\Input\day8.txt")
             |> Seq.map parseLine
-            |> Seq.fold (fun (reg, _, h) i -> processLine reg i h) (Map.empty, 0, 0)
+            |> Seq.fold (fun (reg, h) i -> processLine reg i h) (Map.empty, 0)
 
-        printfn "part 1 = %d" highest
+        printfn "part 1 = %d" <| highestValue registers
         printfn "part 2 = %d" totalHighest
