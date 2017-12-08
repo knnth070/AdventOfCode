@@ -32,5 +32,3 @@
             |> Array.map int
 
         printfn "first, second = %A" (redistribute input)
-        ()
-

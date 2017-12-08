@@ -55,4 +55,3 @@
 
         printfn "root node = %A" root
         findUnbalanced input "" root
-        ()

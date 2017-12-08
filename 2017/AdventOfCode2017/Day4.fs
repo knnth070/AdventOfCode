@@ -22,6 +22,5 @@
 
     let solve() =
         let input = File.ReadAllLines("..\..\Input\day4.txt")
-        printfn "part 1 = %A" (validPassphrases id input)
-        printfn "part 2 = %A" (validPassphrases canonicalize input)
-        ()
+        printfn "part 1 = %A" <| validPassphrases id input
+        printfn "part 2 = %A" <| validPassphrases canonicalize input

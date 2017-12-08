@@ -31,6 +31,5 @@
 
     let solve() =
         let input = File.ReadAllLines("..\..\Input\day2.txt")
-        printfn "part 1 = %A" (checksum sumChecksum input)
-        printfn "part 2 = %A" (checksum divChecksum input)
-        ()
+        printfn "part 1 = %A" <| checksum sumChecksum input
+        printfn "part 2 = %A" <| checksum divChecksum input

@@ -42,8 +42,7 @@
 
     let processLine (reg, value, condition) =
         if conditionIsTrue condition
-        then setRegister reg ((getRegister reg) + value)
-        ()
+        then setRegister reg (value + getRegister reg)
 
     let mutable highestIntermediate = new KeyValuePair<string,int>()
 
@@ -56,6 +55,5 @@
         File.ReadAllLines("..\..\Input\day8.txt")
         |> Seq.iter (parseLine >> processLine >> storeHighest)
         let highest = registers |> Seq.maxBy (fun kv -> kv.Value)
-        printfn "part 1 = %A" (highest)
-        printfn "part 2 = %A" (highestIntermediate)
-        ()
+        printfn "part 1 = %A" highest
+        printfn "part 2 = %A" highestIntermediate

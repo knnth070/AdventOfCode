@@ -19,6 +19,5 @@
     let solve() =
         let input1 = File.ReadAllLines("..\..\Input\day5.txt") |> Array.map int
         let input2 = Array.copy input1
-        printfn "part 1 = %A" (jump inc input1)
-        printfn "part 2 = %A" (jump incOrDec input2)
-        ()
+        printfn "part 1 = %A" <| jump inc input1
+        printfn "part 2 = %A" <| jump incOrDec input2
