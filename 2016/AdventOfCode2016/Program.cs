@@ -11,7 +11,7 @@ namespace AdventOfCode2016
     {
         static void Main(string[] args)
         {
-            Day25();
+            Day11();
         }
 
         private static void Day1()
