@@ -53,11 +53,8 @@
                 impl cs visited
             | (x, y)::cs ->
                 let squares =
-                    [ inUse ((x - 1), y);
-                    inUse ((x + 1), y);
-                    inUse (x, (y - 1));
-                    inUse (x, (y + 1)) ]
-                    |> List.choose id
+                    [ x - 1, y; x + 1, y; x, y - 1; x, y + 1 ]
+                    |> List.choose inUse
                 impl (cs @ squares) ((x, y)::visited)
 
         impl [x, y] []
