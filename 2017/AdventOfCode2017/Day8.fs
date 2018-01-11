@@ -25,7 +25,7 @@
     let highestValue =
         Map.toList >> List.map snd >> List.max
 
-    let processLine registers instruction highest =
+    let processLine registers instruction =
         let setRegister name value =
             registers |> Map.add name value
 
@@ -46,16 +46,17 @@
         if conditionIsTrue instruction.condition
         then
             let newValue = instruction.increment + getRegister instruction.register
-            let newRegisters = setRegister instruction.register newValue
-            newRegisters, max highest (highestValue newRegisters)
+            setRegister instruction.register newValue
         else
-            registers, highest
+            registers
 
     let solve() =
-        let registers, totalHighest =
+        let result =
             File.ReadAllLines("..\..\Input\day8.txt")
             |> Seq.map parseLine
-            |> Seq.fold (fun (reg, h) i -> processLine reg i h) (Map.empty, 0)
+            |> Seq.scan processLine Map.empty
+            |> Seq.skip 1 // skip empty Map
+            |> Seq.map highestValue
 
-        printfn "part 1 = %d" <| highestValue registers
-        printfn "part 2 = %d" totalHighest
+        printfn "part 1 = %d" <| Seq.last result
+        printfn "part 2 = %d" <| Seq.max result
