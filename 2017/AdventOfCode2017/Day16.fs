@@ -27,7 +27,7 @@
         line.Split(',')
         |> Seq.map (fun m -> parseMove m.[0] (m.Substring(1)))
     
-    let dance move (programs: char []) =
+    let dance (programs: char []) move =
         let findIndex p =
             programs |> Array.findIndex ((=) p)
 
@@ -53,7 +53,7 @@
 
     let findRepeatLength (initial: char []) moves =
         let rec impl current moves acc =
-            let newState = Seq.fold (fun p m -> dance m p) current moves
+            let newState = moves |> Seq.fold dance current
 
             if newState = initial
             then acc
@@ -62,7 +62,7 @@
         impl (Array.copy initial) moves 1
 
     let rec fullDance programs moves repetitions =
-        let newState = Seq.fold (fun p m -> dance m p) programs moves
+        let newState = moves |> Seq.fold dance programs
 
         if repetitions = 0
         then programs
