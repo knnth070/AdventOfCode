@@ -26,16 +26,14 @@
             | "sw" -> { position with x = position.x - 1; z = position.z + 1 }
             | "nw" -> { position with x = position.x - 1; y = position.y + 1 }
             | _ -> position
-        newPosition, (distance origin newPosition)
+        newPosition
 
     let solve() =
         let result =
             File.ReadAllLines("..\..\Input\day11.txt").[0]
             |> parseInput
-            |> Seq.scan (fun (s, _) d -> move s d) (origin, 0)
+            |> Seq.scan move origin
+            |> Seq.map (distance origin)
 
-        let part1 = result |> Seq.last |> snd
-        let part2 = result |> Seq.map snd |> Seq.max
-
-        printfn "part 1 = %A" part1
-        printfn "part 2 = %A" part2
+        printfn "part 1 = %A" <| Seq.last result
+        printfn "part 2 = %A" <| Seq.max result
