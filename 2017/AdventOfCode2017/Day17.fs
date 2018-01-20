@@ -1,6 +1,6 @@
 ﻿module Day17
 
-    let insert n step start l =
+    let insert step (start, l) n =
         let len = List.length l
         let pos = (start + step) % len + 1
         let first = l |> List.take pos
@@ -8,7 +8,7 @@
 
         pos, first @ (n::tail)
 
-    let insertAtOne n step pos len numberAtOne =
+    let insertAtOne step (pos, len, numberAtOne) n =
         let newPos = (pos + step) % len + 1
 
         let newNumberAtOne =
@@ -20,10 +20,10 @@
     let solve() =
         let step = 363
 
-        let pos, result = [1 .. 2017] |> List.fold (fun (pos, buffer) t -> insert t step pos buffer) (0, [0])
+        let pos, result = [1 .. 2017] |> List.fold (insert step) (0, [0])
         let part1 = result |> List.skip (pos + 1) |> List.head
 
-        let _, _, part2 = [1 .. 50_000_000] |> List.fold (fun (pos, len, n) t -> insertAtOne t step pos len n) (0, 1, 0)
+        let _, _, part2 = [1 .. 50_000_000] |> List.fold (insertAtOne step) (0, 1, 0)
 
         printfn "part 1 = %A" <| part1
         printfn "part 2 = %A" <| part2
