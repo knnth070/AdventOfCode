@@ -19,9 +19,7 @@
         let roots = nodes |> Seq.map (fun (r, _, _) -> r)
         let children = nodes |> Seq.choose (fun (_, _, c) -> c) |> Seq.concat
 
-        roots
-        |> Seq.choose (fun r -> if Seq.contains r children then None else Some r)
-        |> Seq.head
+        roots |> Seq.pick (fun r -> if Seq.contains r children then None else Some r)
 
     let rec calculateWeight nodes name =
         let _, weight, children = nodes |> Seq.filter (fun (r,_,_) -> r = name) |> Seq.head

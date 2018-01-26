@@ -21,8 +21,7 @@
                 for y in values do
                     yield if x > y && x % y = 0 then Some (x / y) else None
         }
-        |> Seq.choose id
-        |> Seq.head
+        |> Seq.pick id
 
     let checksum f input =
         input
