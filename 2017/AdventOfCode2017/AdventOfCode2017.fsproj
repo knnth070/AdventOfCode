@@ -73,6 +73,7 @@
     <Content Include="Input\day18.txt" />
     <Content Include="Input\day19.txt" />
     <Content Include="Input\day20.txt" />
+    <Content Include="Input\day21.txt" />
     <Compile Include="Knothash.fs" />
     <Compile Include="Day1.fs" />
     <Compile Include="Day2.fs" />
@@ -94,6 +95,7 @@
     <Compile Include="Day18.fs" />
     <Compile Include="Day19.fs" />
     <Compile Include="Day20.fs" />
+    <Compile Include="Day21.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

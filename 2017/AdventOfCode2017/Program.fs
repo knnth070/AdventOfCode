@@ -1,4 +1,4 @@
 ﻿[<EntryPoint>]
 let main argv = 
-    Day20.solve()
+    Day21.solve()
     0
