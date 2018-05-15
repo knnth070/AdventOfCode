@@ -4,7 +4,10 @@
     open System
     open System.Text.RegularExpressions
 
-    type Coordinate = { X: int; Y: int; Z: int }
+    type Coordinate =
+        { X: int; Y: int; Z: int }
+    with
+        static member (+) (a, b) = { X = a.X + b.X; Y = a.Y + b.Y; Z = a.Z + b.Z }
 
     type Particle = { number: int; position: Coordinate; velocity: Coordinate; acceleration: Coordinate }
 
@@ -24,12 +27,9 @@
     let manhattan p =
         abs p.X + abs p.Y + abs p.Z
 
-    let addCoordinate a b =
-        { X = a.X + b.X; Y = a.Y + b.Y; Z = a.Z + b.Z }
-
     let tick p =
-        let v' = addCoordinate p.velocity p.acceleration
-        let p' = addCoordinate p.position v'
+        let v' = p.velocity + p.acceleration
+        let p' = p.position + v'
         { p with position = p'; velocity = v' }
 
     let part1 =
