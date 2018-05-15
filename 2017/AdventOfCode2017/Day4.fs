@@ -3,11 +3,8 @@
     open System.IO
     open System
 
-    let canonicalize word =
-        word
-        |> Seq.sort
-        |> Array.ofSeq
-        |> System.String
+    let canonicalize =
+        Seq.sort >> Array.ofSeq >> System.String
 
     let isValidPassphrase f (phrase:string) =
         phrase.Split(' ')
