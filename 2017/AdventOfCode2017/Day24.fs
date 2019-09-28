@@ -5,7 +5,15 @@ open System.IO
 
 type Connection = Left | Right
 
-type Component = { Port1: int; Port2: int; Connection: Connection }
+[<CustomEquality; NoComparison>]
+type Component =
+    { Port1: int; Port2: int; Connection: Connection }
+    override this.Equals(obj) =
+        match obj with
+        | :? Component as other -> this.Port1 = other.Port1 && this.Port2 = other.Port2
+        | _ -> false
+    override this.GetHashCode() =
+        this.Port1 * 33 + this.Port2
 
 type Solution = { Current: Component list; Remaining: Component list; Modified: bool }
 
@@ -36,7 +44,6 @@ let addZeros solution =
     |> List.map addNonZeros
 
 let findNext solutions =
-    let componentsAreDifferent a b = a.Port1 <> b.Port1 || a.Port2 <> b.Port2
     let impl solution =
         let current = List.head solution.Current
         let pins = if current.Connection = Left then current.Port2 else current.Port1
@@ -53,7 +60,7 @@ let findNext solutions =
             |> List.map (fun c ->
                 {
                     Current = c :: solution.Current;
-                    Remaining = List.filter (componentsAreDifferent c) solution.Remaining;
+                    Remaining = List.filter ((<>) c) solution.Remaining;
                     Modified = true
                 })
 
